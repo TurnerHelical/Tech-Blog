@@ -17,13 +17,8 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
+    post_text: {
       type: DataTypes.TEXT,
-    },
-    date_created: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
     },
     user_id: {
       type: DataTypes.INTEGER,

@@ -18,25 +18,20 @@ User.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
-      },
+    username: {
+        type: DataTypes.STRING,
+        allowNull:false,
+        unique: true
     },
     password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [8],
-      },
-    },
+        type: DataTypes.STRING,
+        allowNull: false,
+      // validates the password length 
+        validate: {
+            // password must be >=8 characters long
+            len: [8]
+        }
+    }
   },
   {
     // Hooks to hash passwords
