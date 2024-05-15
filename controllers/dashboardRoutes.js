@@ -61,7 +61,7 @@ router.get("/edit/:id", withAuth, (req, res) => {
         return;
       }
       const post = postData.get({ plain: true });
-      res.render("edit-post", { post, loggedIn: true });
+      res.render("editPost", { post, loggedIn: true });
     })
     .catch((err) => {
       console.log(err);
@@ -71,7 +71,7 @@ router.get("/edit/:id", withAuth, (req, res) => {
 
 //GET '/new' render add-post page when user want to add a new post
 router.get("/new", (req, res) => {
-  res.render("add-post");
+  res.render("newPost");
 });
 
 module.exports = router;
