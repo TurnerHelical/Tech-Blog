@@ -1,54 +1,31 @@
-const sequelize = require('../config/connection');
+// Imports
+const sequelize = require("../config/connection");
+const { User, BlogPost, Comment } = require("../models");
 
-// Import all models
-const { User, Post, Comment } = require('../models');
+const userData = require("./userData.json");
+const blogPostData = require("./blogPostData.json");
+const commentData = require("./commentData.json");
 
-// Import all seeds
-const userData = require('./userData.json');
-const postData = require('./postData.json');
-const commentData = require('./commentData.json');
-
-// Asynchronous function to seed the database
+// Seeds database with user data, blogPost data, and comment data
 const seedDatabase = async () => {
-  try {
-    // Sync all models
-    await sequelize.sync({ force: true });
+  await sequelize.sync({ force: true });
 
-    // Seed users first
-    const users = await User.bulkCreate(userData, {
-      individualHooks: true,
-      returning: true,
+  const users = await User.bulkCreate(userData, {
+    individualHooks: true,
+    returning: true,
+  });
+
+  for (const blogPost of blogPostData) {
+    await BlogPost.create({
+      ...blogPost,
+      user_id: users[Math.floor(Math.random() * users.length)].id,
     });
-    console.log('Users seeded successfully');
-
-    // Seed posts after users
-    console.log('Seeding posts...');
-    const posts = await Post.bulkCreate(
-      postData.map((post) => ({
-        ...post,
-        userId: users.find((user) => user.id === post.userId)?.id, // Using optional chaining to handle potential undefined
-      }))
-    );
-    console.log('Posts seeded successfully');
-
-    // Seed comments after posts
-    console.log('Seeding comments...');
-    await Comment.bulkCreate(
-      commentData.map((comment) => ({
-        ...comment,
-        userId: users.find((user) => user.id === comment.userId)?.id, // Using optional chaining to handle potential undefined
-        postId: posts.find((post) => post.id === comment.postId)?.id, // Using optional chaining to handle potential undefined
-      }))
-    );
-    console.log('Comments seeded successfully');
-
-    // Log a success message
-    console.log('Database seeding completed successfully');
-  } catch (error) {
-    // Log any errors that occur during seeding
-    console.error('Error seeding database:', error);
   }
+
+  const comments = await Comment.bulkCreate(commentData);
+
+  process.exit(0);
 };
 
-// Call the seeding function
+// Function call to seed database
 seedDatabase();

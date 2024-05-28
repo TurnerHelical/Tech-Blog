@@ -1,120 +1,60 @@
+// Imports
 const router = require("express").Router();
-// imports user, post, and comment models
-const { User, Post, Comment } = require("../../models");
+const { User } = require("../../models");
 
-// GET '/api/users' find all of this users data except the password
-router.get("/", (req, res) => {
-  User.findAll({
-    attributes: { exclude: ["[password"] },
-  })
-    .then((userData) => res.json(userData))
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
+// Posts new user email, username, and password to database
+router.post("/", async (req, res) => {
+  try {
+    const userData = await User.create(req.body);
+
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+
+      res.status(200).json(userData);
     });
-});
-
-// GET by id when user click on this id, get back user info except the password
-router.get("/:id", (req, res) => {
-  User.findOne({
-    attributes: { exclude: ["password"] },
-    where: {
-      id: req.params.id,
-    },
-    include: [{
-      model: Post,
-      attributes: [
-          'id',
-          'title',
-          'content',
-          'created_at'
-      ]
-  },
-
-  {
-      model: Comment,
-      attributes: ['id', 'comment_text', 'created_at'],
-      include: {
-          model: Post,
-          attributes: ['title']
-      }
-  },
-  {
-      model: Post,
-      attributes: ['title'],
+  } catch (err) {
+    res.status(400).json(err);
   }
-]
-  })
-    .then((userData) => {
-      if (!userData) {
-        res.status(404).json({ message: "No user found with this id" });
-        return;
-      }
-      res.json(userData);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    });
 });
 
-// POST route when user signs up, log to their session
-router.post("/", (req, res) => {
-  User.create({
-    username: req.body.username,
-    password: req.body.password,
-  })
+// When user logs in as an existing user then this route validates user credentials and logs user in if a match is found in the database
+router.post("/login", async (req, res) => {
+  try {
+    const userData = await User.findOne({ where: { email: req.body.email } });
 
-    .then((userData) => {
-      req.session.save(() => {
-        req.session.user_id = userData.id;
-        req.session.username = userData.username;
-        req.session.loggedIn = true;
+    if (!userData) {
+      console.log("no user found");
+      res
+        .status(400)
+        .json({ message: "Incorrect email or password, please try again" });
+      return;
+    }
 
-        res.json(userData);
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
+    const validPassword = await userData.checkPassword(req.body.password);
+
+    if (!validPassword) {
+      console.log("no password match");
+      res
+        .status(400)
+        .json({ message: "Incorrect email or password, please try again" });
+      return;
+    }
+
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+
+      res.json({ user: userData, message: "You are now logged in!" });
     });
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
-// post '/login' when user clicks login button, find their corresponding username
-router.post("/login", (req, res) => {
-  User.findOne({
-    where: {
-      username: req.body.username,
-    },
-  })
-    .then((userData) => {
-      if (!userData) {
-        res.status(400).json({ message: "No user with that username!" });
-        return;
-      }
-      const validPassword = userData.checkPassword(req.body.password);
-
-      if (!validPassword) {
-        res.status(400).json({ message: "Incorrect password!" });
-        return;
-      }
-      req.session.save(() => {
-        req.session.user_id = userData.id;
-        req.session.username = userData.username;
-        req.session.loggedIn = true;
-
-        res.json({ user: userData, message: "You are now logged in!" });
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-});
-
-// POST 'logout' when user clicks logout, destroy sessions
+// When user logs out the session is ended
 router.post("/logout", (req, res) => {
-  if (req.session.loggedIn) {
+  if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
     });
@@ -123,4 +63,5 @@ router.post("/logout", (req, res) => {
   }
 });
 
+// Exports
 module.exports = router;

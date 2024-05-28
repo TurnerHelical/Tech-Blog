@@ -1,41 +1,36 @@
-// import models 
-const User = require('./User');
-const Post = require('./Post');
-const Comment = require('./Comment');
+// Imports
+const User = require("./user");
+const BlogPost = require("./blogPost");
+const Comment = require("./comment");
 
-// define association
-//User has many post
-User.hasMany(Post, {
-    foreignKey: 'user_id'
-})
-//post belong to user
-Post.belongsTo(User, {
-    foreignKey: 'user_id',
-    onDelete: "cascade"
-})
-//user has many comment
+// Sets up relationship between tables and allows me to join them using Sequelize
+User.hasMany(BlogPost, {
+  foreignKey: "user_id",
+  onDelete: "CASCADE",
+});
+
+BlogPost.belongsTo(User, {
+  foreignKey: "user_id",
+});
+
 User.hasMany(Comment, {
-    foreignKey: 'user_id',
-    onDelete: "cascade"
+  foreignKey: "user_id",
+  onDelete: "CASCADE",
 });
 
-//comment belong to user
 Comment.belongsTo(User, {
-    foreignKey: 'user_id',
-    onDelete: "cascade"
+  foreignKey: "user_id",
 });
 
-//post has many comment
-Post.hasMany(Comment, {
-    foreignKey: 'post_id',
-    onDelete: "cascade"
-})
-
-//comment belong to post
-Comment.belongsTo(Post, {
-    foreignKey: 'post_id',
-    onDelete: "cascade"
+Comment.belongsTo(BlogPost, {
+  foreignKey: "blogPost_id",
+  onDelete: "CASCADE",
 });
 
-//export models
-module.exports = { User, Post, Comment };
+BlogPost.hasMany(Comment, {
+  foreignKey: "blogPost_id",
+  onDelete: "CASCADE",
+});
+
+// Export
+module.exports = { User, BlogPost, Comment };
