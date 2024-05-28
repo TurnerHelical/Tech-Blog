@@ -1,17 +1,32 @@
 [
   {
-    "name": "Janis Joplin",
-    "email": "takeanotherlittlepieceofmyheart@hotmail.com",
-    "password": "password1"
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "password": "myPassword123!"
   },
   {
-    "name": "Jerry Garcia",
-    "email": "dancingbears@gmail.com",
-    "password": "password12"
+    "name": "Jane Doe",
+    "email": "janedoe@test.com",
+    "password": "securePass456"
   },
   {
-    "name": "John Lennon",
-    "email": "imagine@aol.com",
-    "password": "password123"
+    "name": "Bob Smith",
+    "email": "bob.smith@company.org",
+    "password": "B0bSmith$123"
+  },
+  {
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@email.net",
+    "password": "Sarahpass$%"
+  },
+  {
+    "name": "Michael Brown",
+    "email": "michael.brown@domain.com",
+    "password": "Br0wnM1chael"
+  },
+  {
+    "name": "Jessica Davis",
+    "email": "jessica.davis@test.org",
+    "password": "J3ss1caDavis!"
   }
 ]

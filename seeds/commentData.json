@@ -1,38 +1,38 @@
 [
   {
-    "comment_body": "What is this guy talking about!",
-    "date_created": "January 15, 2022",
+    "comment_body": "This post truly captures the beauty and serenity of nature. It's a wonderful reminder to take a step back and appreciate the natural world around us.",
+    "date_created": "April 16, 2023",
     "user_id": 2,
     "blogPost_id": 1
   },
   {
-    "comment_body": "I can see what he meant",
-    "date_created": "June 2, 2022",
-    "user_id": 3,
-    "blogPost_id": 1
-  },
-  {
-    "comment_body": "Peace and love mannnnn, even for robots!",
-    "date_created": "March 18, 2022",
+    "comment_body": "Mindfulness is truly a gift. This post is a great reminder to slow down and savor the present moment. It's easy to get caught up in the hustle and bustle of daily life.",
+    "date_created": "February 23, 2023",
     "user_id": 3,
     "blogPost_id": 2
   },
   {
-    "comment_body": "What is your opinion?",
-    "date_created": "November 1, 2022",
+    "comment_body": "I've been practicing mindfulness meditation, and it has made such a positive impact on my overall well-being. Thank you for sharing this insightful post.",
+    "date_created": "February 24, 2023",
+    "user_id": 3,
+    "blogPost_id": 2
+  },
+  {
+    "comment_body": "This post is so motivating! I've been struggling to stick to a fitness routine, but your words have inspired me to approach it as a holistic lifestyle change.",
+    "date_created": "May 2, 2023",
     "user_id": 1,
-    "blogPost_id": 2
+    "blogPost_id": 3
   },
   {
-    "comment_body": "lol",
-    "date_created": "May 28, 2023",
+    "comment_body": "Your writing has such a way of transporting the reader to the destinations you describe. I can't wait to follow along on your future travel adventures!",
+    "date_created": "March 11, 2023",
     "user_id": 2,
-    "blogPost_id": 3
+    "blogPost_id": 4
   },
   {
-    "comment_body": "Never believe the media",
-    "date_created": "May 30, 2023",
+    "comment_body": "Your descriptions of the aromas and flavors are simply mouth-watering! I can almost taste the delicious dishes you've described.",
+    "date_created": "January 29, 2023",
     "user_id": 1,
-    "blogPost_id": 3
+    "blogPost_id": 5
   }
 ]
